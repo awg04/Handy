@@ -25,7 +25,7 @@
   --ov-rest-w: 120px; /* resting compact pill (minimal, recording) -- roomy enough
                          for the English working label before the grow starts */
   --ov-pill-w: 150px; /* base width / Live pill before it opens or collapses */
-  --ov-work-w: 160px; /* working pill (transcribing / polishing) -- wide enough to
+  --ov-work-w: 190px; /* working pill (transcribing / polishing) -- wide enough to
                          center longer labels; shared by Live (collapsed) + minimal */
   --ov-open-w: 392px; /* Live panel, expanded */
   --ov-base-h: 30px; /* control-row height (.sbase) */
@@ -169,6 +169,11 @@
 }
 .scard.compact.cworking {
   width: var(--ov-work-w);
+}
+/* No cancel button in the compact pill (Escape cancels), so drop the waveform's
+   right-hand breathing room and let the bars sit dead centre. */
+.scard.compact .swave {
+  padding-right: 0;
 }
 
 /* Notice: badge and title, in the pill and the Live panel. */
