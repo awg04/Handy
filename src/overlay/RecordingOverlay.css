@@ -5,14 +5,13 @@
   /* Near-opaque app surface (theme.css --color-background at 98%). Auto-flips
      light/dark with --color-background, so no dark-mode override is needed. */
   --s-surface: color-mix(in srgb, var(--color-background) 98%, transparent);
-  /* Accent = logo pink; flips automatically via --color-logo-primary. */
-  --s-accent: var(--color-logo-primary);
+  /* Accent = mint (AG fork). Light/dark pair below, switched the same way
+     theme.css switches --color-*: media query first, data-theme wins. */
+  --ov-accent-light: #4fbf98;
+  --ov-accent-dark: #5dcaa5;
+  --s-accent: var(--ov-accent-light);
   /* The rest come from theme.css, which already follows the theme setting. */
-  --s-accent-soft: color-mix(
-    in srgb,
-    var(--color-logo-primary) 20%,
-    transparent
-  );
+  --s-accent-soft: color-mix(in srgb, var(--s-accent) 20%, transparent);
   --s-muted: var(--color-ink-2);
   --s-faint: var(--color-ink-3);
   --s-border: var(--color-line);
@@ -23,15 +22,27 @@
      the card's max footprint (--ov-work-w for compact, --ov-open-w for Live),
      since the card is anchored flush to the screen edge in CSS. Keep overlay.rs
      in sync when these change. */
-  --ov-rest-w: 172px; /* resting compact pill (minimal, recording) -- roomy enough
+  --ov-rest-w: 120px; /* resting compact pill (minimal, recording) -- roomy enough
                          for the English working label before the grow starts */
-  --ov-pill-w: 184px; /* base width / Live pill before it opens or collapses */
-  --ov-work-w: 216px; /* working pill (transcribing / polishing) -- wide enough to
+  --ov-pill-w: 150px; /* base width / Live pill before it opens or collapses */
+  --ov-work-w: 150px; /* working pill (transcribing / polishing) -- wide enough to
                          center longer labels; shared by Live (collapsed) + minimal */
   --ov-open-w: 392px; /* Live panel, expanded */
-  --ov-base-h: 40px; /* control-row height (.sbase) */
+  --ov-base-h: 30px; /* control-row height (.sbase) */
   --ov-cap-max-h: 64px; /* max height of the scrolling live-text region */
 }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --s-accent: var(--ov-accent-dark);
+  }
+}
+:root[data-theme="light"] {
+  --s-accent: var(--ov-accent-light);
+}
+:root[data-theme="dark"] {
+  --s-accent: var(--ov-accent-dark);
+}
+
 /* ============================================================
    Unified overlay stage — one fixed, transparent container shared by the compact
    pill and the Live panel (both render the same `.scard` base). The card is
@@ -102,7 +113,7 @@
   /* Never wider than the window: an unaccounted content zoom degrades to a
      narrower card instead of clipping. 2px = our border (no border-box reset). */
   max-width: calc(100vw - 2px);
-  border-radius: 24px;
+  border-radius: 15px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -142,7 +153,7 @@
 }
 .scard.working {
   width: var(--ov-work-w);
-  border-radius: 18px;
+  border-radius: 15px;
 }
 
 /* Compact form: two fixed widths so the recording→working change is an animatable
@@ -165,7 +176,7 @@
   cursor: pointer;
 }
 .scard.cnotice:not(.open) {
-  border-radius: 24px;
+  border-radius: 15px;
 }
 .scard.level-error {
   --notice: var(--color-error);
@@ -304,8 +315,8 @@
   justify-self: end;
 }
 .sdot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   flex: none;
   box-sizing: border-box;
@@ -316,7 +327,7 @@
 .sdot.ready {
   background: var(--s-accent);
   opacity: 1;
-  animation: sdot-pulse 1.9s infinite;
+  animation: none;
 }
 /* A quiet neutral dot while the host has not delivered its first sample yet. */
 .sdot.arming {
@@ -352,13 +363,13 @@
   align-items: center;
   gap: 3px;
   padding-right: 8px;
-  height: 18px;
+  height: 14px;
   flex: none;
 }
 .swave i {
   width: 4px;
   min-height: 3px;
-  max-height: 18px;
+  max-height: 14px;
   border-radius: 2px;
   background: var(--s-accent);
   transition:
@@ -434,8 +445,8 @@
 
 /* working state (transcribing / polishing) — spinner + label */
 .sspinner {
-  width: 13px;
-  height: 13px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   border: 2px solid var(--s-hair);
   border-top-color: var(--s-accent);
