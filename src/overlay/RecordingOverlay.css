@@ -5,10 +5,10 @@
   /* Near-opaque app surface (theme.css --color-background at 98%). Auto-flips
      light/dark with --color-background, so no dark-mode override is needed. */
   --s-surface: color-mix(in srgb, var(--color-background) 98%, transparent);
-  /* Accent = mint (AG fork). Light/dark pair below, switched the same way
+  /* Accent = ultramarine (AG fork, 11/5; was mint #4fbf98 / #5dcaa5). Light/dark pair below, switched the same way
      theme.css switches --color-*: media query first, data-theme wins. */
-  --ov-accent-light: #4fbf98;
-  --ov-accent-dark: #5dcaa5;
+  --ov-accent-light: #3d4dff;
+  --ov-accent-dark: #6b78ff;
   --s-accent: var(--ov-accent-light);
   /* The rest come from theme.css, which already follows the theme setting. */
   --s-accent-soft: color-mix(in srgb, var(--s-accent) 20%, transparent);
